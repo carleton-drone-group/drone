@@ -14,6 +14,7 @@ on 10 Nov 2012.
 
 #define pulse 8 // Trigger Pin
 #define LEDPin 13 // Onboard LED
+#define NUM_SENSORS 3
 
 int deg = 0;
 int maximumRange = 200; // Maximum range needed
@@ -48,13 +49,11 @@ void loop() {
     distance of the nearest object by bouncing soundwaves off of it. */
     digitalWrite(pulse, LOW);
     delayMicroseconds(2);
-
-    digitalWrite(pulse, HIGH);
-    delayMicroseconds(10);
-
-    digitalWrite(pulse, LOW);
-    for(int i = 0;i < 3;i++)
+    for(int i = 0;i < NUM_SENSORS;i++)
     {
+        digitalWrite(pulse, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(pulse, LOW);
         readDist(i);
     }
     delay(100);
@@ -68,7 +67,10 @@ void readDist(int direction)
     if (distance >= maximumRange || distance <= minimumRange){
         /* Send a negative number to computer and Turn LED ON
         to indicate "out of range" */
-        Serial.println("Sonar 1: -1");//testing
+        Serial.print("Out of Range Sonar ");//testing
+        Serial.print(direction);
+        Serial.print(": ");
+        Serial.println(distance);
         digitalWrite(LEDPin, HIGH);
     } else {
         /* Send the distance to the computer using Serial protocol, and
