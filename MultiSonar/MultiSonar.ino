@@ -19,27 +19,27 @@ int deg = 0;
 int maximumRange = 200; // Maximum range needed
 int minimumRange = 0; // Minimum range needed
 long duration, distance; // Duration used to calculate distance
+int echoPin[8];
 
 void setup() {
     Serial.begin (9600);
-    int echoPin[8];
-    echoPin[0] = 2
-    echoPin[1] = 7 // Echo Pin
-    echoPin[2] = 2
-    echoPin[3] = 7 // Echo Pin change later
-    echoPin[4] = 2
-    echoPin[5] = 7 // Echo Pin
-    echoPin[6] = 2
-    echoPin[7] = 7 // Echo Pin
+    echoPin[0] = 2;
+    echoPin[1] = 7; // Echo Pin
+    echoPin[2] = 4;
+    echoPin[3] = 7; // Echo Pin change later
+    echoPin[4] = 2;
+    echoPin[5] = 7; // Echo Pin
+    echoPin[6] = 2;
+    echoPin[7] = 7; // Echo Pin
     pinMode(pulse, OUTPUT);
     pinMode(echoPin[0], INPUT);
     pinMode(echoPin[1], INPUT);
     pinMode(echoPin[2], INPUT);
-    pinMode(echoPin[3], INPUT);
-    pinMode(echoPin[4], INPUT);
-    pinMode(echoPin[5], INPUT);
-    pinMode(echoPin[6], INPUT);
-    pinMode(echoPin[7], INPUT);
+    //pinMode(echoPin[3], INPUT);
+    //pinMode(echoPin[4], INPUT);
+    //pinMode(echoPin[5], INPUT);
+    //pinMode(echoPin[6], INPUT);
+    //pinMode(echoPin[7], INPUT);
     pinMode(LEDPin, OUTPUT); // Use LED indicator (if required)
 }
 
@@ -52,8 +52,8 @@ void loop() {
     digitalWrite(pulse, HIGH);
     delayMicroseconds(10);
 
-    digitalWrite(trigPin1, LOW);
-    for(int i = 0;i < 8;i++)
+    digitalWrite(pulse, LOW);
+    for(int i = 0;i < 3;i++)
     {
         readDist(i);
     }
@@ -73,12 +73,16 @@ void readDist(int direction)
     } else {
         /* Send the distance to the computer using Serial protocol, and
         turn LED OFF to indicate successful reading. */
-        if(distance1 <= 61)
+        if(distance <= 61)
         {
             deg = direction * 45;
+            Serial.print("Sonar ");
+            Serial.print(direction);
+            Serial.print(": ");
+            Serial.println(distance);
             //stop and move opposite direction
             //move(cm,degrees);
-            move(20,(deg + (deg >= 180) ? -180 : 180);
+            //move(20,(deg + (deg >= 180) ? -180 : 180);
         }
         digitalWrite(LEDPin, LOW);
     }
